@@ -22,7 +22,7 @@ export const navItems: NavItem[] = [
   { label: "Team", href: "#" },
   { label: "Product", href: "#" },
   { label: "Contact", href: "#" },
-  { label: "FAQ", href: "#" },
+  { label: "Testimonials", href: "#" },
 ];
 
 export const testimonials = [

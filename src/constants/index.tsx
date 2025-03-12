@@ -18,11 +18,11 @@ interface NavItem {
 }
 
 export const navItems: NavItem[] = [
-  { label: "Home", href: "https://www.youtube.com/" },
+  { label: "Home", href: "/" },
   { label: "Team", href: "#" },
-  { label: "Product", href: "#" },
+  { label: "Product", href: "/products" },
   { label: "Contact", href: "#" },
-  { label: "Testimonials", href: "#" },
+  { label: "Testimonials", href: "/testimonials" },
 ];
 
 export const testimonials = [

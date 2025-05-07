@@ -1,9 +1,36 @@
 import React from 'react'
 import { features } from '../constants'
+import { motion } from 'framer-motion';
+import watchImage1 from '../assets/watch_image1.jpg';
+import watchImage2 from '../assets/watch_image2.jpg';
+import watchImage3 from '../assets/watch_image3.jpg';
+
+const imageVariants = {
+  offscreen: {
+    y: 200,
+    opacity: 0,
+  },
+  onscreen: {
+    y: 0,
+    opacity: 1,
+    rotate: -5,
+    transition: {
+      type: "spring",
+      bounce: 0.4,
+      duration: 0.8,
+    },
+  },
+};
+
+const imageCards = [
+  { src: watchImage1, alt: 'Product 1' },
+  { src: watchImage2, alt: 'Product 2' },
+  { src: watchImage3, alt: 'Product 3' },
+];
 
 const Product = () => {
   return (
-    <div className="relative mt-20 border-b border-neutral-800 min-h-[800px]">
+    <div className="relative mt-20 min-h-[800px]">
       <div className="text-center">
         {/* <span className="bg-neutral-900 text-orange-500 rounded-full h-6 text-sm font-medium px-2 py-1 uppercase">
           Feature
@@ -15,6 +42,7 @@ const Product = () => {
             First of its kind, patented, self defense wearables for women!
           </span>
       </div>
+
       <div className="flex flex-wrap mt-10 lg:mt-20">
         {features.map((feature, index) => (
           <div key={index} className="w-full sm:w-1/2 lg:w-1/3">
@@ -32,7 +60,31 @@ const Product = () => {
           </div>
         ))}
       </div>
+      
+       {/* Framer Motion Animated Images */}
+       <div className="flex flex-col justify-center mt-16 gap-8">
+        {imageCards.map((img, i) => (
+          <motion.div
+            key={i}
+            className="w-full sm:w-[250px] h-[350px] mx-auto overflow-hidden rounded-xl shadow-lg"
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true, amount: 0.8 }}
+            variants={imageVariants}
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
+        ))}
+      </div>
+      
     </div>
+
+
+    
   )
 }
 

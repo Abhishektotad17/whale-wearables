@@ -67,41 +67,42 @@ export const testimonials = [
 export const features = [
   {
     icon: <BotMessageSquare />,
-    text: "Drag-and-Drop Interface",
+    text: "Smart Alert System",
     description:
-      "Easily design and arrange your VR environments with a user-friendly drag-and-drop interface.",
+      "Get instant alerts in emergency situations with a single tap on your smartwatch, ensuring your safety at all times.",
   },
   {
     icon: <Fingerprint />,
-    text: "Multi-Platform Compatibility",
+    text: "Biometric Lock",
     description:
-      "Build VR applications that run seamlessly across multiple platforms, including mobile, desktop, and VR headsets.",
+      "Unlock your smartwatch and secure personal data using advanced fingerprint authentication.",
   },
   {
     icon: <ShieldHalf />,
-    text: "Built-in Templates",
+    text: "Rugged & Water Resistant",
     description:
-      "Jumpstart your VR projects with a variety of built-in templates for different types of applications and environments.",
+      "Built to withstand daily wear and tear with water-resistant and shockproof design—perfect for all lifestyles.",
   },
   {
     icon: <BatteryCharging />,
-    text: "Real-Time Preview",
+    text: "All-Day Battery Life",
     description:
-      "Preview your VR application in real-time as you make changes, allowing for quick iterations and adjustments.",
+      "Stay connected longer with efficient power management that gives you all-day battery on a single charge.",
   },
   {
     icon: <PlugZap />,
-    text: "Collaboration Tools",
+    text: "Seamless Connectivity",
     description:
-      "Work together with your team in real-time on VR projects, enabling seamless collaboration and idea sharing.",
+      "Pair effortlessly with your phone for call, message, and app notifications right on your wrist.",
   },
   {
     icon: <GlobeLock />,
-    text: "Analytics Dashboard",
+    text: "Built-in GPS & SOS",
     description:
-      "Gain valuable insights into user interactions and behavior within your VR applications with an integrated analytics dashboard.",
+      "Track your location accurately and send SOS signals instantly during emergencies with GPS integration.",
   },
 ];
+
 
 export const checklistItems = [
   {

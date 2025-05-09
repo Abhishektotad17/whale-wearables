@@ -4,6 +4,13 @@ import { motion } from 'framer-motion';
 import watchImage1 from '../assets/watch_image1.jpg';
 import watchImage2 from '../assets/watch_image2.jpg';
 import watchImage3 from '../assets/watch_image3.jpg';
+import user1 from '../assets/profile-pictures/user1.jpg';
+import user2 from '../assets/profile-pictures/user2.jpg';
+import user3 from '../assets/profile-pictures/user3.jpg';
+import user4 from '../assets/profile-pictures/user4.jpg';
+import user5 from '../assets/profile-pictures/user5.jpg';
+import { productDescription } from '../constants';
+import { ProductGallery } from './ScrollGallery';
 
 const imageVariants = {
   offscreen: {
@@ -26,6 +33,14 @@ const imageCards = [
   { src: watchImage1, alt: 'Product 1' },
   { src: watchImage2, alt: 'Product 2' },
   { src: watchImage3, alt: 'Product 3' },
+];
+
+const productImages = [
+  { src: user1, alt: "Smartwatch front view" },
+  { src: user2, alt: "Smartwatch back view" },
+  { src: user3, alt: "Smartwatch on wrist" },
+  { src: user4, alt: "Smartwatch packaging" },
+  { src: user5, alt: "Smartwatch in use" },
 ];
 
 const Product = () => {
@@ -80,11 +95,21 @@ const Product = () => {
           </motion.div>
         ))}
       </div>
-      
+
+         {/* Product Description Section */}
+      <div className="mt-20 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
+        <h3 className="text-2xl sm:text-4xl font-semibold text-orange-600 mb-6">
+          {productDescription.heading}
+        </h3>
+        <p className="text-neutral-400 text-md sm:text-lg leading-relaxed mb-10">
+          {productDescription.paragraph}
+        </p>
+      </div>
+
+      <ProductGallery images={productImages} />
+
+
     </div>
-
-
-    
   )
 }
 

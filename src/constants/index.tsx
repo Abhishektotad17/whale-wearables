@@ -103,6 +103,16 @@ export const features = [
   },
 ];
 
+export const productDescription = {
+  heading: "Meet the Smart Safety Watch",
+  paragraph: `Our Smart Safety Watch is more than just a timepiece—it's a personal guardian
+              on your wrist. Designed specifically for women, it features an instant alert
+              button, biometric lock, rugged build, and all-day battery life. Whether you're
+              commuting, jogging, or traveling alone, it ensures you're never truly alone.
+              Get real-time GPS tracking, seamless phone connectivity, and a direct SOS feature
+              built into a sleek, modern design.`,
+};
+
 
 export const checklistItems = [
   {

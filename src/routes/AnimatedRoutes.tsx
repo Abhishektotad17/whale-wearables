@@ -1,9 +1,10 @@
 import React, { ReactNode } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import HeroSection from "./HeroSection";
-import Product from "./Product";
-import Testimonials from "./Testimonials";
+import Home from "../pages/Home";
+import Product from "../pages/Product";
+import Testimonials from "../pages/Testimonials";
+import Login from "../pages/Login";
 
 // Define Type for Props
 interface PageWrapperProps {
@@ -37,9 +38,10 @@ const AnimatedRoutes: React.FC = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><HeroSection /></PageWrapper>} />
+        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
         <Route path="/products" element={<PageWrapper><Product /></PageWrapper>} />
         <Route path="/testimonials" element={<PageWrapper><Testimonials /></PageWrapper>} />
+        <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
   );

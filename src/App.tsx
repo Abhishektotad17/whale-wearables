@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import AnimatedRoutes from "./components/AnimatedRoutes";
+import AnimatedRoutes from "./routes/AnimatedRoutes";
 
 function App() {
   return(

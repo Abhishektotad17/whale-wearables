@@ -9,10 +9,10 @@ const CLIENT_ID = "829277785533-b6moncq6ikqke5okefkve9uj0734n51g.apps.googleuser
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={CLIENT_ID}>...
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
       <AuthProvider>
         <App />
       </AuthProvider>
-    </GoogleOAuthProvider>;
+    </GoogleOAuthProvider>
   </React.StrictMode>,
 )

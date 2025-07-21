@@ -60,9 +60,9 @@ const Navbar = () => {
               </div>
             ) : (
               <>
-                <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign In</button>
+                <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign up</button>
                 <a href="#" className="bg-gradient-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md">
-                  Create an account
+                  Log in
                 </a>
               </>
             )}

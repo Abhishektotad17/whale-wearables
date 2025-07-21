@@ -43,9 +43,7 @@ const HeroSection = () => {
             </span>
         </h1>
         <p className="mt-10 text-lg text-center text-neutral-500 max-w-4xl">
-            Welcome to Whale Wearables, where innovation meets empowerment.
-            We are a groundbreaking company featured on Shark Tank, dedicated to creating wearable products that prioritize women’s safety. 
-            Our mission is simple: to provide women with peace of mind and security through smart, stylish, and discreet technology.
+           {content.description}
         </p>
         <div className="flex justify-center my-10">
             <a href="#" className="bg-gradient-to-r from-orange-500 to-orange-800 py-3 px-4 mx-3 rounded-md">

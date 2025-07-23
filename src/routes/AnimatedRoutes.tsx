@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import Product from "../pages/Product";
 import Testimonials from "../pages/Testimonials";
 import Login from "../pages/Login";
+import Signup from "../pages/SignUp";
 
 // Define Type for Props
 interface PageWrapperProps {
@@ -42,6 +43,7 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/products" element={<PageWrapper><Product /></PageWrapper>} />
         <Route path="/testimonials" element={<PageWrapper><Testimonials /></PageWrapper>} />
         <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+        <Route path="/signup" element={<PageWrapper><Signup /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
   );

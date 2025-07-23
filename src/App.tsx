@@ -14,13 +14,13 @@ function App() {
 
 const AppLayout = () => {
   const location = useLocation();
-  const isLoginPage = location.pathname === '/login';
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
 
   return (
     <>
       <ScrollToTop />
 
-      {!isLoginPage ? (
+      {!isAuthPage ? (
         <>
           <Navbar />
           <div className="max-w-7xl mx-auto pt-20 px-6">
@@ -29,17 +29,17 @@ const AppLayout = () => {
           </div>
         </>
       ) : (
-        <div className="min-h-screen flex flex-col justify-between items-center text-center">
+        <div className="max-w-7xl mx-auto justify-between items-center text-center">
           <header className="py-4 text-2xl font-bold">
-            Whale Wearables - Login
+          Whale Wearables - {location.pathname === '/login' ? 'Login' : 'Sign Up'}
           </header>
 
-          <main className="flex-grow w-full max-w-md mx-auto">
+          <main className="flex-grow w-full mx-auto mt-10">
             <AnimatedRoutes />
           </main>
 
           <footer className="py-4 text-sm text-gray-500">
-            © Whale Wearables Pvt. Ltd.
+          © Whale Wearables Pvt. Ltd. All rights reserved.
           </footer>
         </div>
       )}

@@ -61,9 +61,7 @@ const Navbar = () => {
             ) : (
               <>
                 <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign up</button>
-                <a href="#" className="bg-gradient-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md">
-                  Log in
-                </a>
+                <button onClick={() => navigate('/signup')} className="bg-gradient-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md">Log in</button>
               </>
             )}
           </div>
@@ -95,10 +93,8 @@ const Navbar = () => {
                 </>
               ) : (
                 <>
-                  <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign In</button>
-                  <a href="#" className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800">
-                    Create an account
-                  </a>
+                  <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign up</button>
+                  <button onClick={() => navigate('/signup')} className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800">Log in</button>
                 </>
               )}
             </div>

@@ -25,8 +25,8 @@ const AppLayout = () => {
           <Navbar />
           <div className="max-w-7xl mx-auto pt-20 px-6">
             <AnimatedRoutes />
-            <Footer />
           </div>
+          <Footer />
         </>
       ) : (
         <div className="max-w-7xl mx-auto justify-between items-center text-center">

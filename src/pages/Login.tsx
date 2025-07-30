@@ -6,6 +6,7 @@ import { useContext, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import  api  from '../services/LoginApi';
 
 interface FormData {
   email: string;
@@ -33,18 +34,31 @@ const LoginPage = () => {
     const userData: any = jwtDecode(credentialResponse.credential);
 
     // You may want to send this token to your backend for verification
-
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
     navigate('/');
   };
 
+  // Google login
+  // const handleGoogleSuccess = async (credentialResponse: any) => {
+  //   const res = await api.post('/api/auth/google', { token: credentialResponse.credential });
+  //   setUser(res.data.user);
+  //   navigate('/');
+  // };
+
   const handleGoogleError = () => {
     console.log('Google login failed');
   };
-  const onSubmit = (data: FormData) => {
-    console.log('Login with:', data);
-    // TODO: send login data to backend
+
+  // const onSubmit = (data: FormData) => {
+  //   console.log('Login with:', data);
+  //   // TODO: send login data to backend
+  // };
+  // email/password login
+    const onSubmit = async (data: FormData) => {
+    const res = await api.post('/api/auth/login', data);
+    setUser(res.data.user);
+    navigate('/');
   };
   return (
     <div className="flex h-screen w-full rounded-xl border-2 border-gray-100">

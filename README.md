@@ -14,3 +14,5 @@ Added react-hook-form - for login page authecations
 Added hookform/resolvers
 
 Added yup dependency
+
+Added react-redux- v9 and @reduxjs/toolkit dependency - > verison above 8 of redux dose not require the @typed/react-redux dependency

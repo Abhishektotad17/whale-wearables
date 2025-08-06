@@ -3,8 +3,18 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop"
 import { BrowserRouter as Router, useLocation } from "react-router-dom"
 import AnimatedRoutes from "./routes/AnimatedRoutes";
+import { useAppDispatch } from "./hooks/useAppDispatch";
+import { useEffect } from "react";
+import { fetchCurrentUser } from "./features/auth/authSlice";
 
 function App() {
+
+  const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
   return (
     <Router>
       <AppLayout />

@@ -5,31 +5,33 @@ import { navItems } from '../constants';
 import { googleLogout } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/AuthContext";
-
+import axios from "../services/LoginApi";
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useAppSelector } from "../hooks/useAppSelector";
+import { logout } from '../features/auth/authSlice';
+import avatar from '../assets/avatar_icon.jpg';
 
 const Navbar = () => {
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
 
     const toggleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   };
-
-  useEffect(() => {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      setUser(JSON.parse(userData));
+  console.log("User picture:", user?.picture);
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/auth/logout"); // Clear backend cookie
+      googleLogout(); // Logout Google user if applicable
+      dispatch(logout()); // Clear Redux state
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
-  }, []);
-
-  const handleLogout = () => {
-    googleLogout();
-    localStorage.removeItem('user');
-    setUser(null);
-    navigate('/login');
   };
 
   return (
@@ -52,9 +54,10 @@ const Navbar = () => {
 
           {/* Desktop Auth Section */}
           <div className="hidden lg:flex justify-center space-x-6 items-center">
-            {user ? (
+          {user ? (
               <div className="flex items-center gap-4">
-                <img src={user.picture} alt="profile" className="w-8 h-8 rounded-full" />
+                  <img src={user?.picture || avatar} alt="profile" className="w-8 h-8 rounded-full" />
+
                 <span>{user.name}</span>
                 <button onClick={handleLogout} className="py-2 px-3 bg-red-500 text-white rounded">Logout</button>
               </div>
@@ -86,17 +89,17 @@ const Navbar = () => {
             </ul>
             <div className="flex space-x-6 mt-6">
               {user ? (
-                <>
-                  <img src={user.picture} alt="profile" className="w-8 h-8 rounded-full" />
-                  <span className="text-white">{user.name}</span>
-                  <button onClick={handleLogout} className="py-2 px-3 bg-red-500 text-white rounded">Logout</button>
-                </>
-              ) : (
-                <>
-                  <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign up</button>
-                  <button onClick={() => navigate('/signup')} className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800">Log in</button>
-                </>
-              )}
+                  <>
+                      <img   src={user?.picture || avatar}  alt="profile" className="w-8 h-8 rounded-full" />
+                    <span className="text-white">{user.name}</span>
+                    <button onClick={handleLogout} className="py-2 px-3 bg-red-500 text-white rounded">Logout</button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign up</button>
+                    <button onClick={() => navigate('/signup')} className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800">Log in</button>
+                  </>
+                )}
             </div>
           </div>
         )}

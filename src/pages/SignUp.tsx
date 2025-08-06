@@ -6,6 +6,9 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import axios from "../services/LoginApi";
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { fetchCurrentUser } from '../features/auth/authSlice';
 
 interface FormData {
   email: string;
@@ -22,7 +25,7 @@ const schema = yup.object().shape({
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -32,17 +35,37 @@ const Signup = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log('Form submitted:', data);
-    // TODO: Handle sign-up logic (API call)
-  };
+  const onSubmit = async (data: FormData) => {
+    try {
+      await axios.post('/api/auth/register', {
+        name: 'User',
+        email: data.email,
+        password: data.password,
+      });
 
-  const handleGoogleSuccess = (credentialResponse: any) => {
-    const userData: any = jwtDecode(credentialResponse.credential);
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
-    navigate('/');
+      await axios.post('/api/auth/login', {
+        email: data.email,
+        password: data.password,
+      });
+
+      await dispatch(fetchCurrentUser());
+      navigate('/');
+    } catch (err) {
+      console.error('Signup failed', err);
+    }
   };
+  
+
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    try {
+      await axios.post('/api/auth/google', { token: credentialResponse.credential });
+      await dispatch(fetchCurrentUser());
+      navigate('/');
+    } catch (err) {
+      console.error('Google sign-up failed', err);
+    }
+  };
+  
 
   const handleGoogleError = () => {
     console.log('Google Sign Up failed');

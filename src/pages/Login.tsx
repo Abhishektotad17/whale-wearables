@@ -1,12 +1,12 @@
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { useContext, useState } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import  api  from '../services/LoginApi';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { fetchCurrentUser } from '../features/auth/authSlice';
 
 interface FormData {
   email: string;
@@ -20,7 +20,7 @@ const loginSchema = Yup.object().shape({
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -30,34 +30,21 @@ const LoginPage = () => {
     resolver: yupResolver(loginSchema),
   });
 
-  const handleGoogleSuccess = (credentialResponse: any) => {
-    const userData: any = jwtDecode(credentialResponse.credential);
-
-    // You may want to send this token to your backend for verification
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+  // Google login
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    await api.post('/api/auth/google', { token: credentialResponse.credential });
+    await dispatch(fetchCurrentUser());
     navigate('/');
   };
-
-  // Google login
-  // const handleGoogleSuccess = async (credentialResponse: any) => {
-  //   const res = await api.post('/api/auth/google', { token: credentialResponse.credential });
-  //   setUser(res.data.user);
-  //   navigate('/');
-  // };
 
   const handleGoogleError = () => {
     console.log('Google login failed');
   };
 
-  // const onSubmit = (data: FormData) => {
-  //   console.log('Login with:', data);
-  //   // TODO: send login data to backend
-  // };
   // email/password login
     const onSubmit = async (data: FormData) => {
-    const res = await api.post('/api/auth/login', data);
-    setUser(res.data.user);
+      await api.post('/api/auth/login', data);
+      await dispatch(fetchCurrentUser());
     navigate('/');
   };
   return (
@@ -134,29 +121,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// const LoginPage = () => {
-
-//   const navigate = useNavigate();
-//   const { setUser } = useContext(AuthContext);
-  
-//   return (
-//     <GoogleLogin 
-//     onSuccess={(credentialResponse: any) => {
-//       const userData: any = jwtDecode(credentialResponse.credential);
-
-//       // storing the user data in local storage
-//       localStorage.setItem('user', JSON.stringify(userData));
-
-//       //Global state
-//       setUser(userData);
-
-//       navigate('/');
-//     }}
-//     onError={() => { console.log("Login failed"); }}
-//     auto_select = {true}
-//     />
-//   )
-// }
-
-// export default LoginPage

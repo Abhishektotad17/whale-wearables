@@ -11,6 +11,22 @@ import user4 from '../assets/profile-pictures/user4.jpg';
 import user5 from '../assets/profile-pictures/user5.jpg';
 import { productDescription } from '../constants';
 import { ProductGallery } from '../components/ScrollGallery';
+import { initializeCashfree } from '../services/Cashfree';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+interface Order {
+  orderId: string;
+  amount: number;
+  phone: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface TokenResponse {
+  cftoken: string;
+}
 
 const imageVariants = {
   offscreen: {
@@ -44,6 +60,56 @@ const productImages = [
 ];
 
 const Product = () => {
+
+  const navigate = useNavigate();
+
+  const handleBuyNow = async () => {
+    try {
+      // 1️⃣ Create order in backend
+      const orderRes = await axios.post<Order>(
+        "http://localhost:8080/api/orders",
+        {
+          amount: 1000, // hardcoded for now
+          phone: "9876543210",
+        },
+        { withCredentials: true }
+      );
+  
+      const order = orderRes.data;
+  
+      // 2️⃣ Get Cashfree token
+      const tokenRes = await axios.get<TokenResponse>(
+        `http://localhost:8080/api/orders/${order.orderId}/token`,
+        { withCredentials: true }
+      );
+  
+      const { cftoken } = tokenRes.data;
+  
+      // 3️⃣ Load Cashfree SDK
+      const cashfree = await initializeCashfree();
+  
+      // 4️⃣ Open checkout
+      cashfree.checkout({
+        paymentSessionId: cftoken,
+        redirect: false,
+        onSuccess: async () => {
+          console.log("Cashfree onSuccess triggered");
+          navigate(`/payment-success?orderId=${order.orderId}`);
+        },
+        onFailure: () => {
+          alert("❌ Payment Failed!");
+        },
+        onClose: () => {
+          console.log("Checkout closed by user.");
+        }
+      });
+    } catch (err) {
+      console.error("Payment Error:", err);
+      alert("Something went wrong during checkout.");
+    }
+  };
+  
+
   return (
     <div className="relative mt-20 min-h-[800px]">
       <div className="text-center">
@@ -77,24 +143,33 @@ const Product = () => {
       </div>
       
        {/* Framer Motion Animated Images */}
-       <div className="flex flex-col justify-center mt-16 gap-8">
+       <div className="flex flex-col items-center mt-16 gap-8">
         {imageCards.map((img, i) => (
           <motion.div
             key={i}
-            className="w-full sm:w-[250px] h-[350px] mx-auto overflow-hidden rounded-xl shadow-lg"
+            className="w-full sm:w-[250px] rounded-xl shadow-lg overflow-hidden flex flex-col"
             initial="offscreen"
             whileInView="onscreen"
             viewport={{ once: true, amount: 0.8 }}
             variants={imageVariants}
           >
-            <img
-              src={img.src}
-              alt={img.alt}
-              className="w-full h-full object-cover"
-            />
+            <div className="h-[350px]">
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <button
+              onClick={handleBuyNow}
+              className="bg-orange-600 text-white px-6 py-2 hover:bg-orange-700 w-full"
+            >
+              Buy Now
+            </button>
           </motion.div>
         ))}
       </div>
+
 
          {/* Product Description Section */}
       <div className="mt-20 px-6 sm:px-12 md:px-20 lg:px-32 text-center">

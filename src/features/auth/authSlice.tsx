@@ -26,7 +26,6 @@ export const fetchCurrentUser = createAsyncThunk<User>(
         const response = await axios.get('/api/auth/me', {
           withCredentials: true,
         });
-  
         // ✅ Return only the user object, not the wrapper
         return response.data.user;
   
@@ -35,29 +34,34 @@ export const fetchCurrentUser = createAsyncThunk<User>(
       }
     }
   );
-const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {
-    logout(state) {
-      state.user = null;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchCurrentUser.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchCurrentUser.fulfilled, (state, action: PayloadAction<User>) => {
-        state.status = 'succeeded';
-        state.user = action.payload;
-      })
-      .addCase(fetchCurrentUser.rejected, (state) => {
-        state.status = 'failed';
-        state.user = null;
-      });
-  },
-});
 
-export const { logout } = authSlice.actions;
-export default authSlice.reducer;
+  const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+      logout(state) {
+        state.user = null;
+      },
+      setUser(state, action: PayloadAction<User>) {
+        state.user = action.payload;
+        state.status = 'succeeded';
+      },
+    },
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchCurrentUser.pending, (state) => {
+          state.status = 'loading';
+        })
+        .addCase(fetchCurrentUser.fulfilled, (state, action: PayloadAction<User>) => {
+          state.status = 'succeeded';
+          state.user = action.payload;
+        })
+        .addCase(fetchCurrentUser.rejected, (state) => {
+          state.status = 'failed';
+          state.user = null;
+        });
+    },
+  });
+  
+  export const { logout, setUser } = authSlice.actions;
+  export default authSlice.reducer;

@@ -27,6 +27,7 @@ const Navbar = () => {
     try {
       await axios.post("/api/auth/logout"); // Clear backend cookie
       googleLogout(); // Logout Google user if applicable
+      document.cookie = "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; 
       dispatch(logout()); // Clear Redux state
       navigate("/login");
     } catch (error) {

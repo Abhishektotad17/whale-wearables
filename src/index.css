@@ -5,6 +5,21 @@
 :root{
     font-family: "Poppins",sans-serif;
     color-scheme: dark;
+
+    --primary: 270 91% 65%;
+    --primary-glow: 270 91% 85%;
+
+     /* Modern gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(270 91% 65%), hsl(280 100% 70%));
+  --gradient-background: linear-gradient(135deg, hsl(240 10% 3.9%), hsl(240 5% 6%));
+  --gradient-card: linear-gradient(135deg, hsl(240 10% 3.9%) 0%, hsl(240 8% 5%) 100%);
+
+  /* Shadows */
+  --shadow-elevated: 0 25px 50px -12px hsl(270 91% 65% / 0.25);
+  --shadow-glow: 0 0 40px hsl(270 91% 65% / 0.15);
+  
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
 }
 
 .hide-scrollbar {
@@ -16,3 +31,53 @@
     display: none;
   }
   
+ /* Glow background uses gradient-primary */
+.glow-background {
+  position: fixed;
+  inset: 0; /* full viewport */
+  background: var(--gradient-primary);
+  filter: blur(64px);
+  opacity: 0.25;
+  animation: pulseGlow 2.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -10;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* Card background uses gradient-card */
+.card {
+  position: relative;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255 255 255 / 0.1);
+  box-shadow: var(--shadow-elevated);
+  border-radius: 1.5rem; /* rounded-3xl */
+  padding: 1.5rem;
+  max-width: 28rem; /* max-w-md */
+  width: 100%;
+  z-index: 0;
+  color: white;
+}
+
+/* Glow shadow for icon circle */
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* Gradient primary background */
+.bg-gradient-primary {
+  background: var(--gradient-primary);
+}
+
+/* Text muted */
+.text-muted-foreground {
+  color: rgba(255 255 255 / 0.6);
+}

@@ -6,6 +6,7 @@ import AnimatedRoutes from "./routes/AnimatedRoutes";
 import { useAppDispatch } from "./hooks/useAppDispatch";
 import { useEffect } from "react";
 import { fetchCurrentUser } from "./features/auth/authSlice";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 
@@ -30,6 +31,13 @@ const AppLayout = () => {
     <>
       <ScrollToTop />
 
+       {/* Toast container */}
+       <Toaster position="top-center" reverseOrder={false} />
+
+      {isAuthPage && (
+        <div className="fixed inset-0 z-[-10] glow-background"></div>  
+      )}
+
       {!isAuthPage ? (
         <>
           <Navbar />
@@ -40,9 +48,6 @@ const AppLayout = () => {
         </>
       ) : (
         <div className="max-w-7xl mx-auto justify-between items-center text-center">
-          <header className="py-4 text-2xl font-bold">
-          Whale Wearables - {location.pathname === '/login' ? 'Login' : 'Sign Up'}
-          </header>
 
           <main className="flex-grow w-full mx-auto mt-10">
             <AnimatedRoutes />

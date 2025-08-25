@@ -36,7 +36,7 @@ const imageVariants = {
   onscreen: {
     y: 0,
     opacity: 1,
-    rotate: -5,
+    rotate: 0,
     transition: {
       type: "spring",
       bounce: 0.4,
@@ -143,33 +143,32 @@ const Product = () => {
       </div>
       
        {/* Framer Motion Animated Images */}
-       <div className="flex flex-col items-center mt-16 gap-8">
-        {imageCards.map((img, i) => (
-          <motion.div
-            key={i}
-            className="w-full sm:w-[250px] rounded-xl shadow-lg overflow-hidden flex flex-col"
-            initial="offscreen"
-            whileInView="onscreen"
-            viewport={{ once: true, amount: 0.8 }}
-            variants={imageVariants}
-          >
-            <div className="h-[350px]">
-              <img
-                src={img.src}
-                alt={img.alt}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <button
-              onClick={handleBuyNow}
-              className="bg-orange-600 text-white px-6 py-2 hover:bg-orange-700 w-full"
+        <div className="flex flex-row flex-wrap justify-center items-center gap-8 mt-16">
+          {imageCards.map((img, i) => (
+            <motion.div
+              key={i}
+              className="w-[90%] sm:w-[280px] md:w-[350px] lg:w-[350px] rounded-xl shadow-lg overflow-hidden flex flex-col"
+              initial="offscreen"
+              whileInView="onscreen"
+              viewport={{ once: true, amount: 0.8 }}
+              variants={imageVariants}
             >
-              Buy Now
-            </button>
-          </motion.div>
-        ))}
-      </div>
-
+              <div className="h-[250px] sm:h-[320px] md:h-[400px] lg:h-[350px]">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <button
+                onClick={handleBuyNow}
+                className="bg-orange-600 text-white px-6 py-2 hover:bg-orange-700 w-full"
+              >
+                Buy Now
+              </button>
+            </motion.div>
+          ))}
+        </div>
 
          {/* Product Description Section */}
       <div className="mt-20 px-6 sm:px-12 md:px-20 lg:px-32 text-center">

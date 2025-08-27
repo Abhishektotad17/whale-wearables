@@ -6,6 +6,8 @@ import Product from "../pages/Product";
 import Testimonials from "../pages/Testimonials";
 import Login from "../pages/Login";
 import Signup from "../pages/SignUp";
+import { CartDrawer } from "../components/CartDrawer";
+import PaymentSuccess from "../pages/PaymentSuccess";
 
 // Define Type for Props
 interface PageWrapperProps {
@@ -37,15 +39,19 @@ const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-        <Route path="/products" element={<PageWrapper><Product /></PageWrapper>} />
-        <Route path="/testimonials" element={<PageWrapper><Testimonials /></PageWrapper>} />
-        <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
-        <Route path="/signup" element={<PageWrapper><Signup /></PageWrapper>} />
-      </Routes>
-    </AnimatePresence>
+    <>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+          <Route path="/products" element={<PageWrapper><Product /></PageWrapper>} />
+          <Route path="/testimonials" element={<PageWrapper><Testimonials /></PageWrapper>} />
+          <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+          <Route path="/signup" element={<PageWrapper><Signup /></PageWrapper>} />
+          <Route path="/payment-success" element={<PageWrapper><PaymentSuccess /></PageWrapper>} />
+        </Routes>
+      </AnimatePresence>
+      <CartDrawer />
+    </>
   );
 };
 

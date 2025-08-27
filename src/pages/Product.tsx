@@ -14,6 +14,9 @@ import { ProductGallery } from '../components/ScrollGallery';
 import { initializeCashfree } from '../services/Cashfree';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Plus } from 'lucide-react';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { addItem, openCart } from '../features/cart/cartSlice';
 
 interface Order {
   orderId: string;
@@ -58,56 +61,68 @@ const productImages = [
   { src: user4, alt: "Smartwatch packaging" },
   { src: user5, alt: "Smartwatch in use" },
 ];
+const products = [
+  { id: 'watch-1', name: 'Guardian Smartwatch – Black', price: 9999, image: watchImage1 },
+  { id: 'watch-2', name: 'Guardian Smartwatch – Silver', price: 10999, image: watchImage2 },
+  { id: 'watch-3', name: 'Guardian Smartwatch – Rose Gold', price: 11999, image: watchImage3 },
+];
 
 const Product = () => {
 
+  const dispatch = useAppDispatch();
+
+  const addToCart = (p: any) => {
+    dispatch(addItem({ id: p.id, name: p.name, price: p.price, image: p.image, qty: 1 }));
+    dispatch(openCart());
+  };
+
   const navigate = useNavigate();
 
-  const handleBuyNow = async () => {
-    try {
-      // 1️⃣ Create order in backend
-      const orderRes = await axios.post<Order>(
-        "http://localhost:8080/api/orders",
-        {
-          amount: 1000, // hardcoded for now
-          phone: "9876543210",
-        },
-        { withCredentials: true }
-      );
+  // const handleBuyNow = async () => {
+  //   try {
+  //     // 1️⃣ Create order in backend
+  //     const orderRes = await axios.post<Order>(
+  //       "http://localhost:8080/api/orders",
+  //       {
+  //         amount: 1000, // hardcoded for now
+  //         phone: "9876543210",
+  //       },
+  //       { withCredentials: true }
+  //     );
   
-      const order = orderRes.data;
+  //     const order = orderRes.data;
   
-      // 2️⃣ Get Cashfree token
-      const tokenRes = await axios.get<TokenResponse>(
-        `http://localhost:8080/api/orders/${order.orderId}/token`,
-        { withCredentials: true }
-      );
+  //     // 2️⃣ Get Cashfree token
+  //     const tokenRes = await axios.get<TokenResponse>(
+  //       `http://localhost:8080/api/orders/${order.orderId}/token`,
+  //       { withCredentials: true }
+  //     );
   
-      const { cftoken } = tokenRes.data;
+  //     const { cftoken } = tokenRes.data;
   
-      // 3️⃣ Load Cashfree SDK
-      const cashfree = await initializeCashfree();
+  //     // 3️⃣ Load Cashfree SDK
+  //     const cashfree = await initializeCashfree();
   
-      // 4️⃣ Open checkout
-      cashfree.checkout({
-        paymentSessionId: cftoken,
-        redirect: false,
-        onSuccess: async () => {
-          console.log("Cashfree onSuccess triggered");
-          navigate(`/payment-success?orderId=${order.orderId}`);
-        },
-        onFailure: () => {
-          alert("❌ Payment Failed!");
-        },
-        onClose: () => {
-          console.log("Checkout closed by user.");
-        }
-      });
-    } catch (err) {
-      console.error("Payment Error:", err);
-      alert("Something went wrong during checkout.");
-    }
-  };
+  //     // 4️⃣ Open checkout
+  //     cashfree.checkout({
+  //       paymentSessionId: cftoken,
+  //       redirect: false,
+  //       onSuccess: async () => {
+  //         console.log("Cashfree onSuccess triggered");
+  //         navigate(`/payment-success?orderId=${order.orderId}`);
+  //       },
+  //       onFailure: () => {
+  //         alert("❌ Payment Failed!");
+  //       },
+  //       onClose: () => {
+  //         console.log("Checkout closed by user.");
+  //       }
+  //     });
+  //   } catch (err) {
+  //     console.error("Payment Error:", err);
+  //     alert("Something went wrong during checkout.");
+  //   }
+  // };
   
 
   return (
@@ -144,29 +159,54 @@ const Product = () => {
       
        {/* Framer Motion Animated Images */}
         <div className="flex flex-row flex-wrap justify-center items-center gap-8 mt-16">
-          {imageCards.map((img, i) => (
+          {products.map((p, i) => (
+
             <motion.div
-              key={i}
-              className="w-[90%] sm:w-[280px] md:w-[350px] lg:w-[350px] rounded-xl shadow-lg overflow-hidden flex flex-col"
-              initial="offscreen"
-              whileInView="onscreen"
-              viewport={{ once: true, amount: 0.8 }}
-              variants={imageVariants}
-            >
-              <div className="h-[250px] sm:h-[320px] md:h-[400px] lg:h-[350px]">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-full object-cover"
-                />
+            key={p.id}
+            className="w-[90%] sm:w-[280px] md:w-[350px] lg:w-[350px] rounded-xl shadow-lg overflow-hidden flex flex-col group relative"
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true, amount: 0.8 }}
+            variants={imageVariants}
+          >
+            <div className="relative h-[250px] sm:h-[320px] md:h-[400px] lg:h-[350px]">
+              <img src={p.image} alt={p.name} className="w-full h-full object-cover" />    
+            </div>
+
+            <div className="p-4">
+              <h3 className="font-semibold line-clamp-2">{p.name}</h3>
+              <div className="mt-2 flex items-center justify-between">
+                <span className="text-xl font-bold text-orange-700">₹{p.price.toLocaleString()}</span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => addToCart(p)} className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition">
+                    Add to Cart
+                  </button>
+                </div>
               </div>
-              <button
-                onClick={handleBuyNow}
-                className="bg-orange-600 text-white px-6 py-2 hover:bg-orange-700 w-full"
-              >
-                Buy Now
-              </button>
-            </motion.div>
+            </div>
+          </motion.div>
+            // <motion.div
+            //   key={i}
+            //   className="w-[90%] sm:w-[280px] md:w-[350px] lg:w-[350px] rounded-xl shadow-lg overflow-hidden flex flex-col"
+            //   initial="offscreen"
+            //   whileInView="onscreen"
+            //   viewport={{ once: true, amount: 0.8 }}
+            //   variants={imageVariants}
+            // >
+            //   <div className="h-[250px] sm:h-[320px] md:h-[400px] lg:h-[350px]">
+            //     <img
+            //       src={img.src}
+            //       alt={img.alt}
+            //       className="w-full h-full object-cover"
+            //     />
+            //   </div>
+            //   <button
+            //     onClick={handleBuyNow}
+            //     className="bg-orange-600 text-white px-6 py-2 hover:bg-orange-700 w-full"
+            //   >
+            //     Buy Now
+            //   </button>
+            // </motion.div>
           ))}
         </div>
 

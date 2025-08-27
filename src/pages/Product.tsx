@@ -1,9 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { features } from '../constants'
 import { motion } from 'framer-motion';
-import watchImage1 from '../assets/watch_image1.jpg';
-import watchImage2 from '../assets/watch_image2.jpg';
-import watchImage3 from '../assets/watch_image3.jpg';
 import user1 from '../assets/profile-pictures/user1.jpg';
 import user2 from '../assets/profile-pictures/user2.jpg';
 import user3 from '../assets/profile-pictures/user3.jpg';
@@ -14,21 +11,18 @@ import { ProductGallery } from '../components/ScrollGallery';
 import { initializeCashfree } from '../services/Cashfree';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { addItem, openCart } from '../features/cart/cartSlice';
 
-interface Order {
-  orderId: string;
-  amount: number;
-  phone: string;
-  status: string;
+interface Product {
+  productId: string;
+  name: string;
+  description: string;
+  price: number;
+  stockQuantity: number;
+  imageUrl: string;
   createdAt: string;
   updatedAt: string;
-}
-
-interface TokenResponse {
-  cftoken: string;
 }
 
 const imageVariants = {
@@ -48,12 +42,6 @@ const imageVariants = {
   },
 };
 
-const imageCards = [
-  { src: watchImage1, alt: 'Product 1' },
-  { src: watchImage2, alt: 'Product 2' },
-  { src: watchImage3, alt: 'Product 3' },
-];
-
 const productImages = [
   { src: user1, alt: "Smartwatch front view" },
   { src: user2, alt: "Smartwatch back view" },
@@ -61,18 +49,28 @@ const productImages = [
   { src: user4, alt: "Smartwatch packaging" },
   { src: user5, alt: "Smartwatch in use" },
 ];
-const products = [
-  { id: 'watch-1', name: 'Guardian Smartwatch – Black', price: 9999, image: watchImage1 },
-  { id: 'watch-2', name: 'Guardian Smartwatch – Silver', price: 10999, image: watchImage2 },
-  { id: 'watch-3', name: 'Guardian Smartwatch – Rose Gold', price: 11999, image: watchImage3 },
-];
 
 const Product = () => {
 
   const dispatch = useAppDispatch();
+  const [products, setProducts] = useState<Product[]>([]);
 
-  const addToCart = (p: any) => {
-    dispatch(addItem({ id: p.id, name: p.name, price: p.price, image: p.image, qty: 1 }));
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        console.log("Fetching products...");
+        const res = await axios.get<Product[]>('http://localhost:8080/api/products'); 
+        setProducts(res.data);
+        console.log("Products fetched:", res.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const addToCart = (p: Product) => {
+    dispatch(addItem({ id: p.productId, name: p.name, price: p.price, image: p.imageUrl, qty: 1 }));
     dispatch(openCart());
   };
 
@@ -159,10 +157,10 @@ const Product = () => {
       
        {/* Framer Motion Animated Images */}
         <div className="flex flex-row flex-wrap justify-center items-center gap-8 mt-16">
-          {products.map((p, i) => (
+          {products.map((p) => (
 
             <motion.div
-            key={p.id}
+            key={p.productId}
             className="w-[90%] sm:w-[280px] md:w-[350px] lg:w-[350px] rounded-xl shadow-lg overflow-hidden flex flex-col group relative"
             initial="offscreen"
             whileInView="onscreen"
@@ -170,7 +168,7 @@ const Product = () => {
             variants={imageVariants}
           >
             <div className="relative h-[250px] sm:h-[320px] md:h-[400px] lg:h-[350px]">
-              <img src={p.image} alt={p.name} className="w-full h-full object-cover" />    
+              <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />    
             </div>
 
             <div className="p-4">
@@ -185,28 +183,6 @@ const Product = () => {
               </div>
             </div>
           </motion.div>
-            // <motion.div
-            //   key={i}
-            //   className="w-[90%] sm:w-[280px] md:w-[350px] lg:w-[350px] rounded-xl shadow-lg overflow-hidden flex flex-col"
-            //   initial="offscreen"
-            //   whileInView="onscreen"
-            //   viewport={{ once: true, amount: 0.8 }}
-            //   variants={imageVariants}
-            // >
-            //   <div className="h-[250px] sm:h-[320px] md:h-[400px] lg:h-[350px]">
-            //     <img
-            //       src={img.src}
-            //       alt={img.alt}
-            //       className="w-full h-full object-cover"
-            //     />
-            //   </div>
-            //   <button
-            //     onClick={handleBuyNow}
-            //     className="bg-orange-600 text-white px-6 py-2 hover:bg-orange-700 w-full"
-            //   >
-            //     Buy Now
-            //   </button>
-            // </motion.div>
           ))}
         </div>
 

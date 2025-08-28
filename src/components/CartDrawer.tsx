@@ -25,37 +25,42 @@ export function CartDrawer() {
 
   if (!isOpen) return null;
 
-  const handleCheckout = async () => {
-    try {
-      // create order with total price
-      const orderRes = await axios.post(
-        "http://localhost:8080/api/orders",
-        { amount: Math.round(totalPrice), phone: "9876543210" },
-        { withCredentials: true }
-      );
-      const order = orderRes.data;
-      const tokenRes = await axios.get(
-        `http://localhost:8080/api/orders/${order.orderId}/token`,
-        { withCredentials: true }
-      );
-      const { cftoken } = tokenRes.data;
-      const cashfree = await initializeCashfree();
+  // const handleCheckout = async () => {
+  //   try {
+  //     // create order with total price
+  //     const orderRes = await axios.post(
+  //       "http://localhost:8080/api/orders",
+  //       { amount: Math.round(totalPrice), phone: "9876543210" },
+  //       { withCredentials: true }
+  //     );
+  //     const order = orderRes.data;
+  //     const tokenRes = await axios.get(
+  //       `http://localhost:8080/api/orders/${order.orderId}/token`,
+  //       { withCredentials: true }
+  //     );
+  //     const { cftoken } = tokenRes.data;
+  //     const cashfree = await initializeCashfree();
 
-      cashfree.checkout({
-        paymentSessionId: cftoken,
-        redirect: true,
-        onSuccess: async () => {
-            console.log("Checkout success");
-            navigate(`/payment-success?orderId=${order.orderId}`);
-          },
-          onClose: () => {
-            console.log("Checkout closed by user");
-          },
-      });
-    } catch (e) {
-      console.error("Checkout error", e);
-      alert("Something went wrong during checkout.");
-    }
+  //     cashfree.checkout({
+  //       paymentSessionId: cftoken,
+  //       redirect: true,
+  //       onSuccess: async () => {
+  //           console.log("Checkout success");
+  //           navigate(`/payment-success?orderId=${order.orderId}`);
+  //         },
+  //         onClose: () => {
+  //           console.log("Checkout closed by user");
+  //         },
+  //     });
+  //   } catch (e) {
+  //     console.error("Checkout error", e);
+  //     alert("Something went wrong during checkout.");
+  //   }
+  // };
+
+  const handleCheckout = () => {
+    dispatch(closeCart());
+    navigate("/order-summary");
   };
 
   return (
@@ -144,7 +149,7 @@ export function CartDrawer() {
             <CreditCard className="w-5 h-5" />
             Proceed to Checkout
           </button>
-          <p className="text-xs text-neutral-500 text-center">Secure checkout via Cashfree</p>
+          <p className="text-xs text-neutral-500 text-center">You’ll enter shipping & payment details on the next step</p>
         </div>
       </div>
     </>

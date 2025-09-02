@@ -12,6 +12,7 @@ import { logout } from '../features/auth/authSlice';
 import avatar from '../assets/avatar_icon.jpg';
 import { ShoppingCart } from "lucide-react";
 import { toggleCart } from "../features/cart/cartSlice"; 
+import { clearCart } from "../features/cart/cartSlice";
 
 const Navbar = () => {
 
@@ -30,6 +31,7 @@ const Navbar = () => {
       googleLogout(); // Logout Google user if applicable
       document.cookie = "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; 
       dispatch(logout()); // Clear Redux state
+      dispatch(clearCart())
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);

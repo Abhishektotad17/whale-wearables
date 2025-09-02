@@ -7,13 +7,18 @@ import { useAppDispatch } from "./hooks/useAppDispatch";
 import { useEffect } from "react";
 import { fetchCurrentUser } from "./features/auth/authSlice";
 import { Toaster } from "react-hot-toast";
+import { fetchCart } from "./features/cart/cartSlice";
 
 function App() {
 
   const dispatch = useAppDispatch();
   
   useEffect(() => {
-    dispatch(fetchCurrentUser());
+    dispatch(fetchCurrentUser()).unwrap().then((user) => {
+      if (user?.id) {
+        dispatch(fetchCart(Number(user.id)));
+      }
+    });
   }, [dispatch]);
 
   return (

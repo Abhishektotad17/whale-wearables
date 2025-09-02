@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from "../../services/LoginApi";
+import { AppDispatch, RootState } from '../../app/store';
+import { setCart } from '../cart/cartSlice';
 
 interface User {
   id: string;
@@ -34,6 +36,22 @@ export const fetchCurrentUser = createAsyncThunk<User>(
       }
     }
   );
+
+  export const handleLoginSuccess =
+  (user: User) => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+
+    if (guestCart.length > 0) {
+      // merge guest cart → backend
+      const res = await axios.post(`/api/cart/merge?userId=${user.id}`, guestCart);
+      dispatch(setCart(res.data)); // backend returns merged cart
+      localStorage.removeItem("guestCart");
+    } else {
+      // fetch user cart fresh
+      const res = await axios.get(`/api/cart/${user.id}`);
+      dispatch(setCart(res.data));
+    }
+  };
 
   const authSlice = createSlice({
     name: 'auth',

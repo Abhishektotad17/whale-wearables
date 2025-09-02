@@ -8,8 +8,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from "../services/LoginApi";
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { fetchCurrentUser, setUser } from '../features/auth/authSlice';
+import { fetchCurrentUser, handleLoginSuccess, setUser } from '../features/auth/authSlice';
 import toast from 'react-hot-toast';
+import { clearCart, fetchCart, syncAddItem } from '../features/cart/cartSlice';
+import { useAppSelector } from "../hooks/useAppSelector";
 
 interface FormData {
   username: string;
@@ -34,6 +36,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
+  const guestItems = useAppSelector((state) => state.cart.items);
 
   const {
     register,
@@ -57,7 +60,13 @@ const Signup = () => {
         password: data.password,
       });
 
-      await dispatch(fetchCurrentUser());
+       // 1. Get user
+        const user = await dispatch(fetchCurrentUser()).unwrap();
+
+       // 2. Run login success flow (merge or fetch cart)
+        await dispatch(handleLoginSuccess(user));
+
+      // await dispatch(fetchCurrentUser());
       toast.success('Account created! You’re in');
       navigate('/');
     } catch (err : any) {
@@ -101,7 +110,13 @@ const Signup = () => {
           { code: codeResponse.code },
           { withCredentials: true }
         );
-        dispatch(setUser(res.data.user));
+        const user = res.data.user;
+        dispatch(setUser(user));
+        
+        // reuse thunk
+        await dispatch(handleLoginSuccess(user));
+
+        // dispatch(setUser(res.data.user));
         toast.success("Login successful!");
         navigate('/');
       } catch (err : any) {

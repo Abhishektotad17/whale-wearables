@@ -12,7 +12,8 @@ import { initializeCashfree } from '../services/Cashfree';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { addItem, openCart } from '../features/cart/cartSlice';
+import { openCart, selectCart, syncAddItem, fetchCart, setCart } from '../features/cart/cartSlice';
+import { useAppSelector } from '../hooks/useAppSelector';
 
 interface Product {
   productId: string;
@@ -54,6 +55,8 @@ const Product = () => {
 
   const dispatch = useAppDispatch();
   const [products, setProducts] = useState<Product[]>([]);
+  const { cartId, items: cartItems } = useAppSelector(selectCart); 
+  const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -67,11 +70,37 @@ const Product = () => {
       }
     };
     fetchProducts();
+    if (user && user.id) {
+      dispatch(fetchCart(Number(user.id)));  
+    }
   }, []);
 
   const addToCart = (p: Product) => {
-    dispatch(addItem({ id: p.productId, name: p.name, price: p.price, image: p.imageUrl, qty: 1 }));
-    dispatch(openCart());
+    if (user) {
+      // logged-in: sync with backend
+      dispatch(syncAddItem({
+        userId: Number(user.id),
+        productId: Number(p.productId),
+        quantity: 1
+      }));
+      dispatch(openCart());
+    } else {
+      // guest: local Redux + localStorage
+      dispatch(setCart({
+        items: [
+          ...cartItems,
+          {
+            id: String(p.productId),
+            productId: Number(p.productId),
+            name: p.name,
+            price: p.price,
+            image: p.imageUrl,
+            quantity: 1
+          }
+        ]
+      }));
+      dispatch(openCart());
+    }
   };
 
   const navigate = useNavigate();

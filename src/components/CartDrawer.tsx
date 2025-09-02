@@ -4,7 +4,8 @@ import { useAppDispatch } from "../hooks/useAppDispatch";
 import { useAppSelector } from "../hooks/useAppSelector";
 import {
   selectIsOpen, selectItems, selectTotalItems, selectTotalPrice,
-  closeCart, updateQuantity, removeItem
+  closeCart, syncUpdateQuantity, syncRemoveItem, setCart,
+  selectCartId
 } from "../features/cart/cartSlice";
 import axios from "axios";
 import { initializeCashfree } from '../services/Cashfree';
@@ -17,6 +18,8 @@ export function CartDrawer() {
   const totalItems = useAppSelector(selectTotalItems);
   const totalPrice = useAppSelector(selectTotalPrice);
   const navigate = useNavigate();
+  const cartId = useAppSelector(selectCartId);
+  const user = useAppSelector((state) => state.auth.user); 
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
@@ -57,6 +60,29 @@ export function CartDrawer() {
   //     alert("Something went wrong during checkout.");
   //   }
   // };
+
+   // --- Handlers ---
+   const handleRemove = (productId: number) => {
+    if (user && cartId) {
+      // logged-in
+      dispatch(syncRemoveItem({ cartId, productId }));
+    } else {
+      // guest → filter and update via setCart
+      const updated = items.filter(i => i.productId !== productId);
+      dispatch(setCart({ items: updated }));
+    }
+  };
+
+  const handleQuantityChange = (productId: number, newQty: number) => {
+    if (user && cartId) {
+      dispatch(syncUpdateQuantity({ cartId, productId, quantity: newQty }));
+    } else {
+      const updated = items.map(i =>
+        i.productId === productId ? { ...i, quantity: newQty } : i
+      );
+      dispatch(setCart({ items: updated }));
+    }
+  };
 
   const handleCheckout = () => {
     dispatch(closeCart());
@@ -104,10 +130,10 @@ export function CartDrawer() {
                 <div className="flex justify-between">
                   <h3 className="font-semibold">{it.name}</h3>
                   <button
-                    onClick={() => dispatch(removeItem(it.id))}
-                    className="text-neutral-500 hover:text-red-600"
-                    title="Remove"
-                  >
+                      onClick={() => handleRemove(Number(it.id))}
+                      className="text-neutral-500 hover:text-red-600"
+                      title="Remove"
+                    >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
@@ -117,14 +143,20 @@ export function CartDrawer() {
                   <div className="flex items-center gap-2">
                     <button
                       className="w-8 h-8 rounded-md border hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-center"
-                      onClick={() => dispatch(updateQuantity({ id: it.id, quantity: it.quantity - 1 }))}
+                      onClick={() =>
+                        it.quantity > 1
+                          ? handleQuantityChange(Number(it.id), it.quantity - 1)
+                          : handleRemove(Number(it.id))
+                      }
                     >
                       <Minus className="w-4 h-4" />
                     </button>
                     <span className="w-8 text-center">{it.quantity}</span>
                     <button
                       className="w-8 h-8 rounded-md border hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center justify-center"
-                      onClick={() => dispatch(updateQuantity({ id: it.id, quantity: it.quantity + 1 }))}
+                      onClick={() =>
+                        handleQuantityChange(Number(it.id), it.quantity + 1)
+                      }
                     >
                       <Plus className="w-4 h-4" />
                     </button>

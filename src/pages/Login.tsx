@@ -6,8 +6,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import  api  from '../services/LoginApi';
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { fetchCurrentUser, setUser } from '../features/auth/authSlice';
+import { fetchCurrentUser, handleLoginSuccess, setUser } from '../features/auth/authSlice';
 import toast from 'react-hot-toast';
+import { clearCart, fetchCart, syncAddItem } from '../features/cart/cartSlice';
+import { useAppSelector } from "../hooks/useAppSelector";
 
 interface FormData {
   identifier: string;
@@ -29,6 +31,7 @@ const loginSchema = Yup.object().shape({
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const guestItems = useAppSelector((state) => state.cart.items);
 
   const {
     register,
@@ -53,7 +56,14 @@ const LoginPage = () => {
     const onSubmit = async (data: FormData) => {
       try {
         await api.post("/api/auth/login", data);
-        await dispatch(fetchCurrentUser());
+
+        // 1. Get user
+        const user = await dispatch(fetchCurrentUser()).unwrap();
+
+       // 2. Run login success flow (merge or fetch cart)
+        await dispatch(handleLoginSuccess(user));
+
+        // await dispatch(fetchCurrentUser());
         toast.success("Login successful!");
         navigate("/");
       } catch (err: any) {
@@ -70,7 +80,11 @@ const LoginPage = () => {
           { code: codeResponse.code },
           { withCredentials: true }
         );
-        dispatch(setUser(res.data.user));
+        const user = res.data.user;
+        dispatch(setUser(user));
+        
+        await dispatch(handleLoginSuccess(user));
+        // dispatch(setUser(res.data.user));
         toast.success("Login successful!");
         navigate('/');
       } catch (err : any) {

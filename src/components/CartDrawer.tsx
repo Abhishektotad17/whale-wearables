@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { initializeCashfree } from '../services/Cashfree';
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export function CartDrawer() {
   const dispatch = useAppDispatch();
@@ -28,38 +29,7 @@ export function CartDrawer() {
 
   if (!isOpen) return null;
 
-  // const handleCheckout = async () => {
-  //   try {
-  //     // create order with total price
-  //     const orderRes = await axios.post(
-  //       "http://localhost:8080/api/orders",
-  //       { amount: Math.round(totalPrice), phone: "9876543210" },
-  //       { withCredentials: true }
-  //     );
-  //     const order = orderRes.data;
-  //     const tokenRes = await axios.get(
-  //       `http://localhost:8080/api/orders/${order.orderId}/token`,
-  //       { withCredentials: true }
-  //     );
-  //     const { cftoken } = tokenRes.data;
-  //     const cashfree = await initializeCashfree();
 
-  //     cashfree.checkout({
-  //       paymentSessionId: cftoken,
-  //       redirect: true,
-  //       onSuccess: async () => {
-  //           console.log("Checkout success");
-  //           navigate(`/payment-success?orderId=${order.orderId}`);
-  //         },
-  //         onClose: () => {
-  //           console.log("Checkout closed by user");
-  //         },
-  //     });
-  //   } catch (e) {
-  //     console.error("Checkout error", e);
-  //     alert("Something went wrong during checkout.");
-  //   }
-  // };
 
    // --- Handlers ---
    const handleRemove = (productId: number) => {
@@ -85,6 +55,12 @@ export function CartDrawer() {
   };
 
   const handleCheckout = () => {
+    if(items.length ===0){
+      toast.error("Your cart is empty. Please add items before checkout.");
+      dispatch(closeCart());
+      return;
+    }
+
     dispatch(closeCart());
     navigate("/order-summary");
   };

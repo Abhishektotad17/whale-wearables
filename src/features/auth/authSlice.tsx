@@ -4,10 +4,11 @@ import { AppDispatch, RootState } from '../../app/store';
 import { setCart } from '../cart/cartSlice';
 
 interface User {
-  id: string;
+  id: number;
   email: string;
   name?: string;
   picture?: string;
+  phone?: string;
 }
 
 interface AuthState {

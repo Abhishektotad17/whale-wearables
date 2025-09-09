@@ -53,6 +53,7 @@ interface OrderBillingPayload {
 
 // What we POST to create an order draft (PENDING)
 interface CreateOrderRequest {
+  userId: number;
   amount: number; // BigDecimal-compatible total
   phone: string; // stored in orders.phone (you can mirror billing.phoneNumber)
   items: OrderItemPayload[]; // will be persisted to order_items
@@ -157,19 +158,33 @@ const handlePlaceOrder =  handleSubmit (async (billingData) => {
       const orderRes = await axios.post(
         "http://localhost:8080/api/orders",
         {
+          userId: user.id,
           phone: billingData.phoneNumber,
+          email: billingData.email,
+          amount: grandTotal,
           items: items.map(it => ({
             productId: it.id,
             quantity: it.quantity,
             price: it.price
           })),
           billing: billingData,
-          amount: grandTotal,
+          shipping: {                          // ✅ NEW: ship-to (using same form)
+            fullName: billingData.fullName,
+            addressLine1: billingData.addressLine1,
+            addressLine2: billingData.addressLine2 || null,
+            city: billingData.city,
+            state: billingData.state,
+            postalCode: billingData.postalCode,
+            country: billingData.country,
+            phoneNumber: billingData.phoneNumber,
+            email: billingData.email,
+          },
         },
         { withCredentials: true }
       );
   
       const order = orderRes.data;
+      console.log("Order created:", order);
   
       // 3. Request Cashfree token
       const tokenRes = await axios.get(

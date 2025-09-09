@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import video1 from '../assets/video1.mp4'
-import video2 from '../assets/video2.mp4'
+import video1 from '../assets/watches_videos/video 1.mp4'
+import video2 from '../assets/watches_videos/video 3.mp4'
 import { getHomeContent } from '../services/HomeConstantService';
+import { productDescription } from '../constants';
+import { ProductGallery } from '../components/ScrollGallery';
+import watch1 from '../assets/watches/watch 10.png';
+import watch2 from '../assets/watches/watch 2.png';
+import watch3 from '../assets/watches/watch 3.png';
+import watch4 from '../assets/watches/watch 5.png';
+import watch5 from '../assets/watches/watch 9.png';
 
 export interface HomeContent {
     heading: string;
@@ -10,7 +17,13 @@ export interface HomeContent {
     video1Url: string;
     video2Url: string;
   }
-
+  const productImages = [
+    { src: watch1, alt: "Smartwatch front view" },
+    { src: watch2, alt: "Smartwatch back view" },
+    { src: watch3, alt: "Smartwatch on wrist" },
+    { src: watch4, alt: "Smartwatch packaging" },
+    { src: watch5, alt: "Smartwatch in use" },
+  ];
 const HeroSection = () => {
     const [content, setContent] =  useState<HomeContent | null>(null);
     const [error, setError] = useState('');
@@ -46,7 +59,7 @@ const HeroSection = () => {
            {content.description}
         </p>
         <div className="flex justify-center my-10">
-            <a href="#" className="bg-gradient-to-r from-orange-500 to-orange-800 py-3 px-4 mx-3 rounded-md">
+            <a href="/products" className="bg-gradient-to-r from-orange-500 to-orange-800 py-3 px-4 mx-3 rounded-md">
                 PREBOOK NOW
             </a>
         </div>
@@ -60,7 +73,18 @@ const HeroSection = () => {
                 Your browser does not support the video tag.
             </video>
       </div>
+      <div className="mt-20 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
+              <h3 className="text-2xl sm:text-4xl font-semibold text-orange-600 mb-6">
+                {productDescription.heading}
+              </h3>
+              <p className="text-neutral-400 text-md sm:text-lg leading-relaxed mb-10">
+                {productDescription.paragraph}
+              </p>
+            </div>
+      
+            <ProductGallery images={productImages} />
     </div>
+    
   )
 }
 

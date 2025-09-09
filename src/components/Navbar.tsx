@@ -9,7 +9,7 @@ import axios from "../services/LoginApi";
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from "../hooks/useAppSelector";
 import { logout } from '../features/auth/authSlice';
-import avatar from '../assets/avatar_icon.jpg';
+import avatar from '../assets/avatar_icon.png';
 import { ShoppingCart } from "lucide-react";
 import { toggleCart } from "../features/cart/cartSlice"; 
 import { clearCart } from "../features/cart/cartSlice";

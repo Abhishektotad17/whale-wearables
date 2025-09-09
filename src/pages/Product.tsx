@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { features } from '../constants'
 import { motion } from 'framer-motion';
-import user1 from '../assets/profile-pictures/user1.jpg';
-import user2 from '../assets/profile-pictures/user2.jpg';
-import user3 from '../assets/profile-pictures/user3.jpg';
-import user4 from '../assets/profile-pictures/user4.jpg';
-import user5 from '../assets/profile-pictures/user5.jpg';
-import { productDescription } from '../constants';
-import { ProductGallery } from '../components/ScrollGallery';
 import { initializeCashfree } from '../services/Cashfree';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -42,14 +35,6 @@ const imageVariants = {
     },
   },
 };
-
-const productImages = [
-  { src: user1, alt: "Smartwatch front view" },
-  { src: user2, alt: "Smartwatch back view" },
-  { src: user3, alt: "Smartwatch on wrist" },
-  { src: user4, alt: "Smartwatch packaging" },
-  { src: user5, alt: "Smartwatch in use" },
-];
 
 const Product = () => {
 
@@ -214,20 +199,6 @@ const Product = () => {
           </motion.div>
           ))}
         </div>
-
-         {/* Product Description Section */}
-      <div className="mt-20 px-6 sm:px-12 md:px-20 lg:px-32 text-center">
-        <h3 className="text-2xl sm:text-4xl font-semibold text-orange-600 mb-6">
-          {productDescription.heading}
-        </h3>
-        <p className="text-neutral-400 text-md sm:text-lg leading-relaxed mb-10">
-          {productDescription.paragraph}
-        </p>
-      </div>
-
-      <ProductGallery images={productImages} />
-
-
     </div>
   )
 }

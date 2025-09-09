@@ -51,9 +51,9 @@ export function ProductGallery({ images }: ProductGalleryProps) {
   const maskImage = useScrollOverflowMask(scrollXProgress);
 
   return (
-    <div id="gallery-container" className="relative w-[80%] max-w-[600px] mx-auto">
+    <div id="gallery-container" className="relative w-[80%] max-w-[800px] mx-auto">
       {/* Progress Circle */}
-      <svg
+      {/* <svg
         width="60"
         height="60"
         viewBox="0 0 100 100"
@@ -68,7 +68,7 @@ export function ProductGallery({ images }: ProductGalleryProps) {
           className="stroke-orange-600 fill-none stroke-[10]"
           style={{ pathLength: scrollXProgress }}
         />
-      </svg>
+      </svg> */}
 
       {/* Scrollable Image List */}
       <motion.ul

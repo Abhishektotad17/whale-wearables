@@ -171,25 +171,22 @@ export const pricingOptions = [
 ];
 
 export const resourcesLinks = [
-  { href: "#", text: "Getting Started" },
-  { href: "#", text: "Documentation" },
-  { href: "#", text: "Tutorials" },
-  { href: "#", text: "API Reference" },
-  { href: "#", text: "Community Forums" },
+  { href: "/", text: "Home" },
+  { href: "#", text: "Team" },
+  { href: "/products", text: "Products" },
+  { href: "#", text: "Contact" },
+  { href: "/testimonials", text: "Testimonials" },
 ];
 
 export const platformLinks = [
-  { href: "#", text: "Features" },
-  { href: "#", text: "Supported Devices" },
-  { href: "#", text: "System Requirements" },
-  { href: "#", text: "Downloads" },
-  { href: "#", text: "Release Notes" },
+  { href: "#", text: "FAQs" },
+  { href: "#", text: "Shipping & Returns" },
+  { href: "#", text: "Warranty" },
+  { href: "#", text: "Track Order" },
 ];
 
 export const communityLinks = [
-  { href: "#", text: "Events" },
-  { href: "#", text: "Meetups" },
-  { href: "#", text: "Conferences" },
-  { href: "#", text: "Hackathons" },
-  { href: "#", text: "Jobs" },
+  { href: "#", text: "Our Story" },
+  { href: "#", text: "Careers" },
+  { href: "#", text: "Blog" },
 ];

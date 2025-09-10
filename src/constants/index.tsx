@@ -21,7 +21,7 @@ export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Team", href: "#" },
   { label: "Product", href: "/products" },
-  { label: "Contact", href: "#" },
+  { label: "Contact", href: "/contact" },
   { label: "Testimonials", href: "/testimonials" },
 ];
 
@@ -174,7 +174,7 @@ export const resourcesLinks = [
   { href: "/", text: "Home" },
   { href: "#", text: "Team" },
   { href: "/products", text: "Products" },
-  { href: "#", text: "Contact" },
+  { href: "/contact", text: "Contact" },
   { href: "/testimonials", text: "Testimonials" },
 ];
 

@@ -9,6 +9,7 @@ import Signup from "../pages/SignUp";
 import { CartDrawer } from "../components/CartDrawer";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import OrderSummary from "../pages/OrderSummary";
+import Contact from "../pages/Contact";
 
 // Define Type for Props
 interface PageWrapperProps {
@@ -46,6 +47,7 @@ const AnimatedRoutes: React.FC = () => {
           <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
           <Route path="/products" element={<PageWrapper><Product /></PageWrapper>} />
           <Route path="/testimonials" element={<PageWrapper><Testimonials /></PageWrapper>} />
+          <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
           <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
           <Route path="/signup" element={<PageWrapper><Signup /></PageWrapper>} />
           <Route path="/payment-success" element={<PageWrapper><PaymentSuccess /></PageWrapper>} />

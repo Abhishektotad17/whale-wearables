@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from "../../services/LoginApi";
+import {authService} from "../../services/AuthServices";
 import { AppDispatch, RootState } from '../../app/store';
 import { setCart } from '../cart/cartSlice';
+import api from '../../services/GlobalApi';
 
 interface User {
   id: number;
@@ -26,9 +27,7 @@ export const fetchCurrentUser = createAsyncThunk<User>(
     'auth/fetchCurrentUser',
     async (_, thunkAPI) => {
       try {
-        const response = await axios.get('/api/auth/me', {
-          withCredentials: true,
-        });
+        const response = await authService.getCurrentUser();
         // ✅ Return only the user object, not the wrapper
         return response.data.user;
   
@@ -44,12 +43,12 @@ export const fetchCurrentUser = createAsyncThunk<User>(
 
     if (guestCart.length > 0) {
       // merge guest cart → backend
-      const res = await axios.post(`/api/cart/merge?userId=${user.id}`, guestCart);
+      const res = await api.post(`/cart/merge?userId=${user.id}`, guestCart);
       dispatch(setCart(res.data)); // backend returns merged cart
       localStorage.removeItem("guestCart");
     } else {
       // fetch user cart fresh
-      const res = await axios.get(`/api/cart/${user.id}`);
+      const res = await api.get(`/cart/${user.id}`);
       dispatch(setCart(res.data));
     }
   };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import video1 from '../assets/watches_videos/video 1.mp4'
 import video2 from '../assets/watches_videos/video 3.mp4'
-import { getHomeContent } from '../services/HomeConstantService';
+import { getHomeApi } from '../services/HomeApi';
 import { productDescription } from '../constants';
 import { ProductGallery } from '../components/ScrollGallery';
 import watch1 from '../assets/watches/watch 10.png';
@@ -29,7 +29,7 @@ const HeroSection = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        getHomeContent()
+        getHomeApi()
           .then((res) => {
             setContent(res.data);
           })

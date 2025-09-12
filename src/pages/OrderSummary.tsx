@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { initializeCashfree } from '../services/Cashfree';
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { apiHelpers } from "../services/GlobalApi";
 // ⛳️ Assumptions
 // - You already store cart items in Redux using your cartSlice (id, name, price, image, quantity)
 // - You have an auth slice with user info OR cookies-based session. If not, wire the guard later.
@@ -155,8 +154,8 @@ const handlePlaceOrder =  handleSubmit (async (billingData) => {
         setLoading(true);
     
       // 2. Create order in backend
-      const orderRes = await axios.post(
-        "http://localhost:8080/api/orders",
+      const orderRes = await apiHelpers.post<CreateOrderResponse>(
+        "/orders",
         {
           userId: user.id,
           phone: billingData.phoneNumber,
@@ -180,19 +179,17 @@ const handlePlaceOrder =  handleSubmit (async (billingData) => {
             email: billingData.email,
           },
         },
-        { withCredentials: true }
       );
   
-      const order = orderRes.data;
+      const order = orderRes;
       console.log("Order created:", order);
   
       // 3. Request Cashfree token
-      const tokenRes = await axios.get(
-        `http://localhost:8080/api/orders/${order.orderId}/token`,
-        { withCredentials: true }
+      const tokenRes = await apiHelpers.get<{ cftoken: string }>(
+        `/orders/${order.orderId}/token`,
       );
   
-      const { cftoken } = tokenRes.data;
+      const { cftoken } = tokenRes;
   
       // 4. Init Cashfree checkout
       const cashfree = await initializeCashfree();

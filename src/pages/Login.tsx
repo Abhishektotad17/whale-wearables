@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import  api  from '../services/LoginApi';
+import  { authService }  from '../services/AuthServices';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { fetchCurrentUser, handleLoginSuccess, setUser } from '../features/auth/authSlice';
 import toast from 'react-hot-toast';
@@ -55,7 +55,7 @@ const LoginPage = () => {
   // email/password login
     const onSubmit = async (data: FormData) => {
       try {
-        await api.post("/api/auth/login", data);
+        await authService.login(data);
 
         // 1. Get user
         const user = await dispatch(fetchCurrentUser()).unwrap();
@@ -75,11 +75,8 @@ const LoginPage = () => {
     onSuccess: async (codeResponse) => {
       try {
         // Send the authorization code to backend
-        const res = await api.post(
-          '/api/auth/google',
-          { code: codeResponse.code },
-          { withCredentials: true }
-        );
+        const res = await authService.googleLogin(codeResponse.code);
+        
         const user = res.data.user;
         dispatch(setUser(user));
         

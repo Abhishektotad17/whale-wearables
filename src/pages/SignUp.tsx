@@ -6,7 +6,7 @@ import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import axios from "../services/LoginApi";
+import { authService } from "../services/AuthServices";
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { fetchCurrentUser, handleLoginSuccess, setUser } from '../features/auth/authSlice';
 import toast from 'react-hot-toast';
@@ -49,16 +49,17 @@ const Signup = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await axios.post('/api/auth/register', {
+
+      await authService.register({
         name: data.username,
         email: data.email,
         password: data.password,
       });
 
-      await axios.post('/api/auth/login', {
-        identifier: data.email,
-        password: data.password,
-      });
+      await authService.login({
+      identifier: data.email,
+      password: data.password,
+    });
 
        // 1. Get user
         const user = await dispatch(fetchCurrentUser()).unwrap();
@@ -105,11 +106,8 @@ const Signup = () => {
     flow: 'auth-code',
     onSuccess: async (codeResponse) => {
       try {
-        const res = await axios.post(
-          '/api/auth/google',
-          { code: codeResponse.code },
-          { withCredentials: true }
-        );
+        const res = await authService.googleLogin(codeResponse.code);
+        
         const user = res.data.user;
         dispatch(setUser(user));
         

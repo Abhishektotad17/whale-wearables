@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { features } from '../constants'
 import { motion } from 'framer-motion';
 import { initializeCashfree } from '../services/Cashfree';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { openCart, selectCart, syncAddItem, fetchCart, setCart } from '../features/cart/cartSlice';
 import { useAppSelector } from '../hooks/useAppSelector';
+import api from '../services/GlobalApi';
 
 interface Product {
   productId: string;
@@ -47,7 +47,7 @@ const Product = () => {
     const fetchProducts = async () => {
       try {
         console.log("Fetching products...");
-        const res = await axios.get<Product[]>('http://localhost:8080/api/products'); 
+        const res = await api.get<Product[]>('/products'); 
         setProducts(res.data);
         console.log("Products fetched:", res.data);
       } catch (error) {

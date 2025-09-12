@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { apiHelpers } from "../services/GlobalApi";
 import { Link, useSearchParams } from 'react-router-dom';
 import { clearCart, openCart } from '../features/cart/cartSlice';
 import { useAppDispatch } from '../hooks/useAppDispatch'
@@ -26,12 +26,11 @@ const PaymentSuccess: React.FC = () => {
 
     const fetchStatus = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:8080/api/orders/${orderId}/verify`,
-          { withCredentials: true }
+        const res = await apiHelpers.get<{ status: string }>(
+          `/orders/${orderId}/verify`
         );
-        setStatus(res.data.status);
-        console.log("Order status:", res.data.status);
+        setStatus(res.status);
+        console.log("Order status:", res.status);
       } catch (err) {
         setError('Failed to fetch order status. Please try again later.');
       } finally {

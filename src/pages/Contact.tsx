@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "../services/GlobalApi";
 
 interface ContactFormData {
   name: string;
@@ -34,9 +34,7 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-        const response = await axios.post(
-          "http://localhost:8080/api/contact",
-          formData,
+        const response = await api.post("/contact",formData,
           {
             headers: {
               "Content-Type": "application/json",

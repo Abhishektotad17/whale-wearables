@@ -5,7 +5,7 @@ import { navItems } from '../constants';
 import { googleLogout } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../context/AuthContext";
-import axios from "../services/LoginApi";
+import { authService } from "../services/AuthServices";
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { useAppSelector } from "../hooks/useAppSelector";
 import { logout } from '../features/auth/authSlice';
@@ -27,7 +27,7 @@ const Navbar = () => {
   };
   const handleLogout = async () => {
     try {
-      await axios.post("/api/auth/logout"); // Clear backend cookie
+      await authService.logout(); // Clear backend cookie
       googleLogout(); // Logout Google user if applicable
       document.cookie = "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; 
       dispatch(logout()); // Clear Redux state

@@ -3,6 +3,7 @@
 This is the frontend application for Whale Wearables, developed using React JS and modern frontend tools to deliver a responsive, performant, and secure user experience.
 
 ## Tech Stack & Tools
+
 - **React JS**: Core UI framework for building interactive user interfaces.
 - **Vite**: Next-generation frontend tooling for fast development and optimized builds.
 - **Tailwind CSS**: Utility-first CSS framework for rapid styling.
@@ -10,6 +11,7 @@ This is the frontend application for Whale Wearables, developed using React JS a
 - **Framer Motion**: Animation library for declarative and smooth UI animations.
 
 ## Key Dependencies
+
 - **axios**: For making HTTP API calls.
 - **@react-oauth/google** & **jwt-decode**: Google OAuth integration and token decoding.
 - **react-hook-form** & **@hookform/resolvers**: Form management and validation for login and authentication flows.
@@ -18,8 +20,12 @@ This is the frontend application for Whale Wearables, developed using React JS a
 - **cashfree-sdk** (or relevant package): Integration with Cashfree payment gateway for secure transactions.
 
 ## Features
+
 - **Authentication**: Supports traditional login/signup with JWT-based authentication and Google OAuth login.
+- **Product Catalog**: Fetch product details & images stored in AWS S3
+- **Shopping Cart**: Add/remove products, persist cart items
+- **Order Summary**: Checkout page with shipping & billing form
+- **Payment Gateway**: Secure transactions via Cashfree Payment Gateway
 - **Form Validation**: Robust validation implemented on login and signup pages.
-- **Payment Gateway**: Seamless integration with Cashfree for processing payments.
 - **State Management**: Efficient global state handling with Redux Toolkit.
 - **Animations**: Smooth UI interactions and transitions using Framer Motion.

@@ -220,7 +220,7 @@ const handlePlaceOrder =  handleSubmit (async (billingData) => {
       <div className="sticky top-0 z-20 bg-white/80 dark:bg-neutral-900/80 backdrop-blur border-b border-neutral-200/60 dark:border-neutral-800/60">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Order Summary</h1>
-          <div className="text-sm text-neutral-500">Review your items & enter shipping</div>
+          <div className="text-sm text-neutral-500">Review your items & enter shipping details</div>
         </div>
       </div>
 

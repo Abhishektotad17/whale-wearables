@@ -1,6 +1,6 @@
-# Whale Wearables
+# NextGear Wearables
 
-This is the frontend application for Whale Wearables, developed using React JS and modern frontend tools to deliver a responsive, performant, and secure user experience.
+This is the frontend application for NextGear Wearables, developed using React JS and modern frontend tools to deliver a responsive, performant, and secure user experience.
 
 ## Tech Stack & Tools
 

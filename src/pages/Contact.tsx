@@ -146,7 +146,7 @@ const Contact: React.FC = () => {
             </div>
             <div>
               <h3 className="font-semibold text-lg">Email</h3>
-              <p className="text-neutral-400">support@whalewearables.com</p>
+              <p className="text-neutral-400">support@NextGearwearables.com</p>
             </div>
           </div>
 
@@ -167,7 +167,7 @@ const Contact: React.FC = () => {
             <div>
               <h3 className="font-semibold text-lg">Address</h3>
               <p className="text-neutral-400">
-                Whale Wearables HQ <br />
+                NextGear Wearables HQ <br />
                 Bengaluru, Karnataka, India
               </p>
             </div>

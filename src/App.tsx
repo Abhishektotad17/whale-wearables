@@ -59,7 +59,7 @@ const AppLayout = () => {
           </main>
 
           <footer className="py-4 text-sm text-gray-500">
-          © Whale Wearables Pvt. Ltd. All rights reserved.
+          © NextGear Wearables Pvt. Ltd. All rights reserved.
           </footer>
         </div>
       )}

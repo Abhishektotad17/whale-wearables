@@ -7,9 +7,9 @@ const Footer = () => {
     <footer className="justify-between items-center text-center mt-20 border-t py-10 border-neutral-700">
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-8 items-start">
         <div className="pl-10 pr-6 lg:pl-16 lg:pr-8 text-center">
-          <img src={logo} alt="Whale Wearables" className="h-20 mx-auto mb-4" />
+          <img src={logo} alt="NextGear Wearables" className="h-20 mx-auto mb-4" />
           <p className="text-neutral-400 text-sm leading-relaxed">
-            At <span className="text-white font-semibold">Whale Wearables</span>, 
+            At <span className="text-white font-semibold">NextGear Wearables</span>, 
             where innovation meets empowerment.
             We are a groundbreaking company featured on Shark Tank,
             dedicated to creating wearable products that prioritize women’s safety.
@@ -63,7 +63,7 @@ const Footer = () => {
       </div>
       <div className="border-t border-neutral-700 mt-8 pt-4">
         <p className="text-center text-neutral-400 text-sm">
-          © 2025 Whale Wearables. All Rights Reserved.
+          © 2025 NextGear Wearables. All Rights Reserved.
         </p>
       </div>
     </footer>

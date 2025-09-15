@@ -49,7 +49,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center flex-shrink-0">
             <img className="h-10 w-10 mr-2" src={logo} alt="Logo" />
-            <span className="text-xl tracking-tight">Whale wearables</span>
+            <span className="text-xl tracking-tight">NextGear wearables</span>
           </div>
 
           {/* Nav Items */}

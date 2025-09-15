@@ -20,7 +20,6 @@ api.interceptors.request.use(
     
     // Add request logging for development
     if (import.meta.env.DEV) {
-      console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     }
     
     return config;
@@ -36,7 +35,7 @@ api.interceptors.response.use(
   (response) => {
     // Log successful responses in development
     if (import.meta.env.DEV) {
-      console.log(`✅ API Response: ${response.config.method?.toUpperCase()} ${response.config.url} - Status: ${response.status}`);
+
     }
     return response;
   },

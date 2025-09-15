@@ -30,7 +30,6 @@ const PaymentSuccess: React.FC = () => {
           `/orders/${orderId}/verify`
         );
         setStatus(res.status);
-        console.log("Order status:", res.status);
       } catch (err) {
         setError('Failed to fetch order status. Please try again later.');
       } finally {

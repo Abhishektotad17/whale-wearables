@@ -50,9 +50,7 @@ const normalizeItems = (items: any[]): CartItem[] =>
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (userId: number) => {
-    console.log("Fetching cart... for user:", userId);
     const res = await cartApi.getCart(userId);
-    console.log("Cart fetched:", res.data);
     return res.data;
   }
 );
@@ -68,9 +66,7 @@ export const syncAddItem = createAsyncThunk(
 export const syncUpdateQuantity = createAsyncThunk(
   "cart/syncUpdateQuantity",
   async ({ cartId, productId, quantity }: { cartId: number; productId: number; quantity: number }) => {
-    console.log("Updating item quantity...", { cartId, productId, quantity });
     const res = await cartApi.updateItem(cartId, productId, quantity);
-    console.log("Item quantity updated:", res.data);
     return res.data;
   }
 );
@@ -78,9 +74,7 @@ export const syncUpdateQuantity = createAsyncThunk(
 export const syncRemoveItem = createAsyncThunk(
   "cart/syncRemoveItem",
   async ({ cartId, productId }: { cartId: number; productId: number }) => {
-    console.log("Removing item...", { cartId, productId });
     await cartApi.removeItem(cartId, productId);
-    console.log("Item removed:", productId);
     return productId;
   }
 );

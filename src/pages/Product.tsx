@@ -88,53 +88,6 @@ const Product = () => {
 
   const navigate = useNavigate();
 
-  // const handleBuyNow = async () => {
-  //   try {
-  //     // 1️⃣ Create order in backend
-  //     const orderRes = await axios.post<Order>(
-  //       "http://localhost:8080/api/orders",
-  //       {
-  //         amount: 1000, // hardcoded for now
-  //         phone: "9876543210",
-  //       },
-  //       { withCredentials: true }
-  //     );
-  
-  //     const order = orderRes.data;
-  
-  //     // 2️⃣ Get Cashfree token
-  //     const tokenRes = await axios.get<TokenResponse>(
-  //       `http://localhost:8080/api/orders/${order.orderId}/token`,
-  //       { withCredentials: true }
-  //     );
-  
-  //     const { cftoken } = tokenRes.data;
-  
-  //     // 3️⃣ Load Cashfree SDK
-  //     const cashfree = await initializeCashfree();
-  
-  //     // 4️⃣ Open checkout
-  //     cashfree.checkout({
-  //       paymentSessionId: cftoken,
-  //       redirect: false,
-  //       onSuccess: async () => {
-  //         console.log("Cashfree onSuccess triggered");
-  //         navigate(`/payment-success?orderId=${order.orderId}`);
-  //       },
-  //       onFailure: () => {
-  //         alert("❌ Payment Failed!");
-  //       },
-  //       onClose: () => {
-  //         console.log("Checkout closed by user.");
-  //       }
-  //     });
-  //   } catch (err) {
-  //     console.error("Payment Error:", err);
-  //     alert("Something went wrong during checkout.");
-  //   }
-  // };
-  
-
   return (
     <div className="relative mt-20 min-h-[800px]">
       <div className="text-center">
@@ -180,7 +133,12 @@ const Product = () => {
             variants={imageVariants}
           >
             <div className="relative h-[250px] sm:h-[320px] md:h-[400px] lg:h-[350px]">
-              <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />    
+              <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
+                {p.stockQuantity === 0 && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                    <span className="text-white text-xl font-bold">Out of Stock</span>
+                  </div>
+                )}
             </div>
 
             <div className="p-4">
@@ -188,8 +146,13 @@ const Product = () => {
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-xl font-bold text-orange-700">₹{p.price.toLocaleString()}</span>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => addToCart(p)} className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition">
-                    Add to Cart
+                  <button onClick={() => addToCart(p)} disabled={p.stockQuantity === 0}
+                   className={`px-4 py-2 rounded-lg transition ${
+                    p.stockQuantity === 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-orange-600 text-white hover:bg-orange-700"
+                  }`}>
+                   {p.stockQuantity === 0 ? "Unavailable" : "Add to Cart"}
                   </button>
                 </div>
               </div>

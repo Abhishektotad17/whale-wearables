@@ -26,8 +26,8 @@ const teamMembers = [
 ];
 
 const videos = [
-  { title: "Our Journey", url: "https://www.youtube.com/embed/_Vk0yjqa5ik" },
-  { title: "Podcast", url: "https://www.youtube.com/embed/lqLwY2J24ws" },
+  { title: "Our Journey", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+  { title: "Podcast", url: "https://www.youtube.com/embed/ScMzIvxBSi4" },
 ];
 
 const values = [
@@ -43,7 +43,7 @@ const funFacts = [
 ];
 
 const timeline = [
-  { year: "2021", event: "Whale Wearables was founded" },
+  { year: "2021", event: "NextGen Wearables was founded" },
   { year: "2022", event: "Launched our first smart product" },
   { year: "2023", event: "Reached 10,000+ happy customers" },
 ];
@@ -169,7 +169,7 @@ const TeamPage: React.FC = () => {
       {/* CTA */}
       <section className="text-center">
         <h2 className="text-3xl font-bold mb-4">Join Our Team</h2>
-        <p className="text-neutral-400 mb-6">Want to be part of Whale Wearables? We're hiring!</p>
+        <p className="text-neutral-400 mb-6">Want to be part of NextGen Wearables? We're hiring!</p>
         <a
           href="/careers"
           className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold"

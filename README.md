@@ -10,6 +10,17 @@ This is the frontend application for NextGear Wearables, developed using React J
 - **Lucide Icons**: Clean and customizable SVG icon library.
 - **Framer Motion**: Animation library for declarative and smooth UI animations.
 
+ - AWS Cloud Infrastructure: **Amazon EC2** – Hosts the Spring Boot backend (running in background), **Amazon RDS (PostgreSQL)** – For persistent user & order data, **Amazon S3** – Static storage for product images and frontend hosting, **Amazon CloudFront** – CDN for global content delivery
+
+- Infrastructure as Code with Terraform:
+To make deployments consistent, scalable, and repeatable, I used Terraform for provisioning and managing AWS resources.
+
+ - Through Terraform, I automated:
+ → S3 bucket creation and CloudFront distribution setup
+ → IAM policies & access roles for secure deployment
+ → Versioned infrastructure code enabling easy rollbacks & updates
+This approach helped me deploy the entire frontend on AWS with just one command, ensuring production-grade reliability and cost efficiency (even on Free Tier 😉).
+
 ## Key Dependencies
 
 - **axios**: For making HTTP API calls.

@@ -13,21 +13,9 @@ const api = axios.create({
 // ✅ Request Interceptor (attach token)
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    
-    // Add request logging for development
-    if (import.meta.env.DEV) {
-    }
-    
-    return config;
+    return config; // cookies are sent automatically
   },
-  (error) => {
-    console.error('Request interceptor error:', error);
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // ✅ Response Interceptor (global error handling)
@@ -42,18 +30,8 @@ api.interceptors.response.use(
   (error) => {
     // Enhanced error handling
     if (error.response?.status === 401) {
-      const token = localStorage.getItem("token");
-    
-      if (token) {
-        console.warn("🔒 Unauthorized access - Token might be expired");
-        localStorage.removeItem("token");
-        if (window.location.pathname !== "/login") {
-          window.location.href = "/login";
-        }
-      } else {
-        console.warn("👤 Guest user - ignoring 401");
-      }
-    }    
+      console.warn("Unauthorized - session expired"); 
+    }
     // Log error details in development
     if (import.meta.env.DEV) {
       console.error('❌ API Error Details:', {

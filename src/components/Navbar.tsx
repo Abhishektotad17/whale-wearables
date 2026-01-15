@@ -97,38 +97,85 @@ const Navbar = () => {
 
         {/* Mobile Drawer */}
         {mobileDrawerOpen && (
-          <div className="fixed right-0 z-20 bg-neutral-900 w-full p-12 flex flex-col justify-center items-center lg:hidden">
-             <button onClick={() => dispatch(toggleCart())} className="relative mb-6">
-              <ShoppingCart className="w-7 h-7 text-orange-500" />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-            <ul>
-              {navItems.map((item, index) => (
-                <li key={index} className="py-4">
-                  <a href={item.href}>{item.label}</a>
-                </li>
-              ))}
-            </ul>
-            <div className="flex space-x-6 mt-6">
-              {user ? (
-                  <>
-                      <img   src={user?.picture || avatar}  alt="profile" className="w-8 h-8 rounded-full" />
-                    <span className="text-white">{user.name}</span>
-                    <button onClick={handleLogout} className="py-2 px-3 bg-red-500 text-white rounded">Logout</button>
-                  </>
-                ) : (
-                  <>
-                    <button onClick={() => navigate('/login')} className="py-2 px-3 border rounded-md">Sign up</button>
-                    <button onClick={() => navigate('/signup')} className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800">Log in</button>
-                  </>
-                )}
+          <div className="fixed inset-0 z-40 bg-black/60 lg:hidden">
+
+          <div className="w-full max-h-[85vh] overflow-y-auto bg-neutral-900 p-6 text-white animate-slideUp">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <img
+                src={user?.picture || avatar}
+                alt="profile"
+                className="w-12 h-12 rounded-full border border-neutral-700"
+              />
+              <div>
+                <p className="text-sm text-neutral-400">
+                  {user ? "Welcome back 👋" : "Welcome"}
+                </p>
+                <p className="font-semibold">
+                  {user ? user.name : "Guest User"}
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+
+          {/* Close Button */}
+          <button onClick={() => setMobileDrawerOpen(false)} className="p-2 rounded-full hover:bg-neutral-800 transition" aria-label="Close menu">
+            <X className="w-6 h-6 text-white" />
+          </button>
+        </div>
+
+        {/* Nav Items*/}
+        <ul className="grid grid-cols-2 gap-4 text-center">
+          {navItems.map((item, index) => (
+            <li key={index}>
+              <a
+                href={item.href}
+                onClick={() => setMobileDrawerOpen(false)}
+                className="block rounded-xl bg-neutral-800 py-4 text-sm font-medium hover:bg-neutral-700 transition"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-8 flex justify-between items-center">
+          {/* Cart */}
+          <button
+            onClick={() => {
+              dispatch(toggleCart());
+              setMobileDrawerOpen(false);
+            }}
+            className="relative flex items-center gap-2 px-4 py-3 rounded-xl bg-orange-600 text-white"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            <span>Cart</span>
+
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          {/* Auth */}
+          {user ? (
+            <button onClick={handleLogout} className="px-4 py-3 rounded-xl bg-red-500 text-white">
+              Logout
+            </button>
+          ) : (
+            <div className="flex gap-3">
+              <button onClick={() => navigate('/login')} className="px-4 py-3 rounded-xl border border-neutral-600">
+                Login
+              </button>
+              <button onClick={() => navigate('/signup')} className="px-4 py-3 rounded-xl bg-orange-600 text-white">
+                Signup
+              </button>
+            </div>
+          )}
+        </div>
+     </div>
+   </div>
+  )}
       </div>
     </nav>
   );

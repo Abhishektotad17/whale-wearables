@@ -87,3 +87,17 @@
 
 .animate-slide-in-right { animation: slide-in-right 200ms ease-out; }
 .animate-fade-in { animation: fade-in 150ms ease-out; }
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out forwards;
+}
+

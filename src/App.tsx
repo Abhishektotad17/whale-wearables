@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop"
+import Chatbot from "./components/ChatBot";
 import { BrowserRouter as Router, useLocation } from "react-router-dom"
 import AnimatedRoutes from "./routes/AnimatedRoutes";
 import { useAppDispatch } from "./hooks/useAppDispatch";
@@ -63,6 +64,8 @@ const AppLayout = () => {
           </footer>
         </div>
       )}
+
+      <Chatbot />
     </>
   );
 };

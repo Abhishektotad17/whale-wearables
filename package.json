@@ -20,6 +20,7 @@
     "lucide-react": "^0.477.0",
     "postcss": "^8.5.3",
     "react": "^18.2.0",
+    "react-chatbotify": "^2.5.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.60.0",
     "react-hot-toast": "^2.5.2",

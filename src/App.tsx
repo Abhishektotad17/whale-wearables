@@ -19,6 +19,9 @@ function App() {
       if (user?.id) {
         dispatch(fetchCart(Number(user.id)));
       }
+    })
+    .catch(() => {
+      // user not logged in — silently ignore
     });
   }, [dispatch]);
 
@@ -33,6 +36,11 @@ const AppLayout = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
 
+  const isDashboardPage =
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/seller') ||
+    location.pathname === '/unauthorized'
+
   return (
     <>
       <ScrollToTop />
@@ -44,7 +52,7 @@ const AppLayout = () => {
         <div className="fixed inset-0 z-[-10] glow-background"></div>  
       )}
 
-      {!isAuthPage ? (
+      {!isAuthPage && !isDashboardPage ? (
         <>
           <Navbar />
           <div className="max-w-7xl mx-auto px-6">
@@ -52,7 +60,7 @@ const AppLayout = () => {
           </div>
           <Footer />
         </>
-      ) : (
+      ) : isAuthPage ? (
         <div className="max-w-7xl mx-auto justify-between items-center text-center">
 
           <main className="flex-grow w-full mx-auto mt-10">
@@ -62,6 +70,11 @@ const AppLayout = () => {
           <footer className="py-4 text-sm text-gray-500">
           © NextGear Wearables Pvt. Ltd. All rights reserved.
           </footer>
+        </div>
+      ): (
+        // Admin / Seller / Unauthorized — full width, no Navbar/Footer
+        <div className="min-h-screen">
+          <AnimatedRoutes />
         </div>
       )}
 

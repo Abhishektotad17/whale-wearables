@@ -1,5 +1,4 @@
-import { GoogleLogin, googleLogout, useGoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -8,7 +7,6 @@ import  { authService }  from '../services/AuthServices';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { fetchCurrentUser, handleLoginSuccess, setUser } from '../features/auth/authSlice';
 import toast from 'react-hot-toast';
-import { clearCart, fetchCart, syncAddItem } from '../features/cart/cartSlice';
 import { useAppSelector } from "../hooks/useAppSelector";
 
 interface FormData {
@@ -66,6 +64,7 @@ const LoginPage = () => {
         // await dispatch(fetchCurrentUser());
         toast.success("Login successful!");
         navigate("/");
+        // navigate("/dashboard"); 
       } catch (err: any) {
         toast.error(err.response?.data?.message || "Invalid email or password");
       }
@@ -84,6 +83,7 @@ const LoginPage = () => {
         // dispatch(setUser(res.data.user));
         toast.success("Login successful!");
         navigate('/');
+        // navigate("/dashboard"); 
       } catch (err : any) {
         console.error('Google login failed:', err);
       }

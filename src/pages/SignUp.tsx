@@ -1,8 +1,6 @@
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -10,7 +8,6 @@ import { authService } from "../services/AuthServices";
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { fetchCurrentUser, handleLoginSuccess, setUser } from '../features/auth/authSlice';
 import toast from 'react-hot-toast';
-import { clearCart, fetchCart, syncAddItem } from '../features/cart/cartSlice';
 import { useAppSelector } from "../hooks/useAppSelector";
 
 interface FormData {
@@ -70,6 +67,7 @@ const Signup = () => {
       // await dispatch(fetchCurrentUser());
       toast.success('Account created! You’re in');
       navigate('/');
+      // navigate("/dashboard"); 
     } catch (err : any) {
       const status = err?.response?.status;
       const serverMsg = err?.response?.data;
@@ -117,6 +115,7 @@ const Signup = () => {
         // dispatch(setUser(res.data.user));
         toast.success("Login successful!");
         navigate('/');
+        // navigate("/dashboard"); 
       } catch (err : any) {
         console.error('Google signup failed:', err);
       }

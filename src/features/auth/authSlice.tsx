@@ -4,12 +4,15 @@ import { AppDispatch, RootState } from '../../app/store';
 import { setCart } from '../cart/cartSlice';
 import api from '../../services/GlobalApi';
 
+export type UserRole = 'USER' | 'SELLER' | 'ADMIN';
+
 interface User {
   id: number;
   email: string;
   name?: string;
   picture?: string;
   phone?: string;
+  roles: UserRole[];
 }
 
 interface AuthState {
@@ -59,6 +62,7 @@ export const fetchCurrentUser = createAsyncThunk<User>(
     reducers: {
       logout(state) {
         state.user = null;
+        state.status = 'idle'; 
       },
       setUser(state, action: PayloadAction<User>) {
         state.user = action.payload;
